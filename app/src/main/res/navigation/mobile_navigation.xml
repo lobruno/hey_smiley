@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_chat">
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.example.hey_smiley.ui.chat.ChatFragment"
+        android:label="@string/menu_chat"
+        tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/nav_people"
+        android:name="com.example.hey_smiley.ui.people.PeopleFragment"
+        android:label="@string/menu_people"
+        tools:layout="@layout/fragment_people" />
+
+    <activity
+        android:id="@+id/nav_smileys"
+        android:name="com.example.hey_smiley.ui.smileys.smileys_activity"
+        android:label="@string/menu_smileys"
+        tools:layout="@layout/activity_smileys" />
+
+
+</navigation>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "946150586040",
+    "firebase_url": "https://hey-smiley-dab5f-default-rtdb.firebaseio.com",
+    "project_id": "hey-smiley-dab5f",
+    "storage_bucket": "hey-smiley-dab5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946150586040:android:69988eb9b04b07a723264d",
+        "android_client_info": {
+          "package_name": "com.example.hey_smiley"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "946150586040-gukmn0da1cbrmu8kvgbmmquq1c9knqrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDw3X9vmlDltS9X30TXCcWmYSca4t04_nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "946150586040-gukmn0da1cbrmu8kvgbmmquq1c9knqrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    android:id="@+id/root_view"
+    android:paddingBottom="10dp"
+    android:theme="@style/Theme.Hey_smiley.NoActionBar"
+    tools:context=".ui.chat.MessageActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolbar_sms"
+        android:background="@color/orange">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/img_ava">
+        </ImageView>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_below="@+id/toolbar_sms"
+            android:layout_above="@id/bottom"
+            android:layout_height="wrap_content"
+            android:id="@+id/recycler_view"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bottom"
+        android:paddingLeft="15dp"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/edit_view"
+        android:background="@drawable/edit_text_back"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+
+        <com.vanniktech.emoji.EmojiEditText
+            android:id="@+id/send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionSend"
+            android:layout_toLeftOf="@id/btn_send"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/btn_stick"
+            android:maxLines="1"/>
+
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/send"
+            android:id="@+id/btn_send"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/btn_stick"
+            android:background="@drawable/ic_baseline_face_24"
+            android:visibility="invisible"
+            android:layout_alignParentLeft="true" />
+
+
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:id="@+id/key_view"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/back_emoji"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_above="@id/keybaord" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/keybaord"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/dark_grey" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
