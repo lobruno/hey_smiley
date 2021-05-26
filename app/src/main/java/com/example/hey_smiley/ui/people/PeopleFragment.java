@@ -52,59 +52,10 @@ public class PeopleFragment extends Fragment {
 
         readUsers();
 
-//        search_users = view.findViewById(R.id.search_users);
-//        search_users.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                searchUsers(charSequence.toString().toLowerCase());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
 
         return view;
     }
 
-//    private void searchUsers(String s) {
-//
-//        final FirebaseUser fuser = FirebaseAuth.getInstance().getCurrentUser();
-//        Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("email")
-//                .startAt(s)
-//                .endAt(s+"\uf8ff");
-//
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                mUsers.clear();
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                    User user = snapshot.getValue(User.class);
-//
-//                    assert user != null;
-//                    assert fuser != null;
-//                    if (!user.getId().equals(fuser.getUid())){
-//                        mUsers.add(user);
-//                    }
-//                }
-//
-//                userAdapter = new UserAdapter(getContext(), mUsers, false);
-//                recyclerView.setAdapter(userAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//    }
 
     private void readUsers() {
 
@@ -114,12 +65,11 @@ public class PeopleFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               // if (search_users.getText().toString().equals("")) {
                     mUsers.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         User user = snapshot.getValue(User.class);
 
-                        if (!user.getId().equals(firebaseUser.getUid())) {
+                        if (!(user.getId().equals(firebaseUser.getUid()))) {
                             mUsers.add(user);
                         }
 
@@ -127,7 +77,6 @@ public class PeopleFragment extends Fragment {
 
                     userAdapter = new UserAdapter(getContext(), mUsers);
                     recyclerView.setAdapter(userAdapter);
-              //  }
             }
 
             @Override

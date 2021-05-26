@@ -1,18 +1,24 @@
 package com.example.hey_smiley;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.hey_smiley.ui.Anek;
+import com.example.hey_smiley.ui.RetrofitClient;
 import com.example.hey_smiley.ui.login.RegistrationActivity;
 import com.example.hey_smiley.ui.login.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,6 +53,10 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Objects;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -64,17 +74,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //initsialization
+
+        ViewDialog alert = new ViewDialog();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Toast.makeText(MainActivity.this, anekdot(), Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                alert.showDialog(MainActivity.this);
             }
         });
 
@@ -149,19 +157,19 @@ public class MainActivity extends AppCompatActivity {
         isVerif();
     }
 
-    String anekdot() throws Exception {
-        String sURL = "http://rzhunemogu.ru/RandJSON.aspx?CType=1"; //just a string
-
-        URL url = new URL(sURL);
-        URLConnection request = url.openConnection();
-        request.connect();
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
-        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
-        String anek = rootobj.getAsString();
-        return  anek;
-        //String zipcode = rootobj.get("zip_code").getAsString(); //just grab the zipcode
-    }
+//    String anekdot() throws Exception {
+//        String sURL = "http://rzhunemogu.ru/RandJSON.aspx?CType=1"; //just a string
+//
+//        URL url = new URL(sURL);
+//        URLConnection request = url.openConnection();
+//        request.connect();
+//        JsonParser jp = new JsonParser(); //from gson
+//        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
+//        JsonObject rootobj = root.getAsJsonObject(); //May be an array, may be an object.
+//        String anek = rootobj.getAsString();
+//        return  anek;
+//        //String zipcode = rootobj.get("zip_code").getAsString(); //just grab the zipcode
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -198,6 +206,49 @@ public class MainActivity extends AppCompatActivity {
                         .create();
             }
         } catch (Exception e) {
+        }
+    }
+
+    public class ViewDialog {
+
+        public void showDialog(Activity activity){
+            final Dialog dialog = new Dialog(activity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.alert_dialog);
+
+            TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+            getAnekdot(text);
+
+            Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+        }
+
+        private void getAnekdot(TextView textView) {
+            Call<Anek> call = RetrofitClient.getInstance().getMyApi().getAnek();
+            call.enqueue(new Callback<Anek>() {
+                @Override
+                public void onResponse(Call<Anek> call, Response<Anek> response) {
+                    String heroList = (response.body().getContent()).toString();
+                    textView.setText(heroList);
+
+
+                }
+
+                @Override
+                public void onFailure(Call<Anek> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d("TAGG", t.getMessage());
+                }
+            });
         }
     }
 }
