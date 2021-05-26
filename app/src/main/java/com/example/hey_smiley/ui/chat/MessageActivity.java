@@ -88,7 +88,7 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -99,7 +99,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 5);
-        keyboard.setHasFixedSize(true);
+//        keyboard.setHasFixedSize(true);
         keyboard.setLayoutManager(layoutManager);
         back = findViewById(R.id.back_emoji);
 
