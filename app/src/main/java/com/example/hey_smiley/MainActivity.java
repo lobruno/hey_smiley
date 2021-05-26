@@ -75,10 +75,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //initsialization
 
+        auth = FirebaseAuth.getInstance();
         ViewDialog alert = new ViewDialog();
+        NotVerify ver = new NotVerify();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,8 +156,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if (!(fire_user.isEmailVerified())) {
+            auth.getCurrentUser().sendEmailVerification();
+            ver.showDialog(MainActivity.this, "verify your email and restart app, please.", fire_user);
+        }
 
-        isVerif();
+
     }
 
 //    String anekdot() throws Exception {
@@ -187,27 +194,37 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            isVerif();
+
+
+    public  class NotVerify{
+        public void showDialog(Activity activity, String msg, FirebaseUser user){
+            final Dialog dialog = new Dialog(activity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
+            dialog.setContentView(R.layout.alert_dialog);
+
+            TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
+            text.setText(msg);
+
+            Button dialogButton = (Button) dialog.findViewById(R.id.btn_dialog);
+            dialogButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(user.isEmailVerified()){
+                    dialog.dismiss();}
+                    else {
+                        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            dialog.show();
+
         }
-    };
 
-    private void isVerif() {
-        try {
-
-
-            if (!(fire_user.isEmailVerified())) {
-                alert = new AlertDialog.Builder(this)
-                        .setTitle(R.string.alert_title)
-                        .setMessage(R.string.alert_sms)
-                        .setPositiveButton("ok", (DialogInterface.OnClickListener) listener)
-                        .create();
-            }
-        } catch (Exception e) {
-        }
     }
+
+
 
     public class ViewDialog {
 
