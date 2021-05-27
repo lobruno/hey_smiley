@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,11 +15,8 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Base64;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -31,7 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.hey_smiley.R;
 import com.example.hey_smiley.ui.login.User;
-import com.example.hey_smiley.ui.sticker_adapter;
+import com.example.hey_smiley.ui.smileys.sticker_adapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +43,7 @@ import com.vanniktech.emoji.EmojiPopup;
 import com.vanniktech.emoji.EmojiUtils;
 import com.vanniktech.emoji.google.GoogleEmojiProvider;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +56,7 @@ public class MessageActivity extends AppCompatActivity {
 
     ImageView profile_image;
     Toolbar toolbar;
-
+    private String TYPE = "img";
     FirebaseUser fuser;
     DatabaseReference reference;
     String userid;
@@ -88,7 +85,6 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         recyclerView = findViewById(R.id.recycler_view);
-//        recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -99,9 +95,9 @@ public class MessageActivity extends AppCompatActivity {
 
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 5);
-//        keyboard.setHasFixedSize(true);
         keyboard.setLayoutManager(layoutManager);
         back = findViewById(R.id.back_emoji);
+
 
         list = new ArrayList<>();
 
@@ -164,7 +160,9 @@ public class MessageActivity extends AppCompatActivity {
 
 //      add filter to edittext to write only emoji
         InputFilter filter =  new InputFilter() {
-            @Override public CharSequence filter(final CharSequence source, final int start, final int end, final Spanned dest, final int dstart, final int dend) {
+            @Override public CharSequence filter(final CharSequence source, final int start,
+                                                 final int end, final Spanned dest, final int dstart,
+                                                 final int dend) {
                 if (!EmojiUtils.isOnlyEmojis(source.subSequence(start, end))) {
                     return "";
                 }
@@ -192,7 +190,7 @@ public class MessageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                //username.setText(user.getUsername());
+
                 toolbar.setTitle(user.getUsername());
 
                 float smile = (user.getImg());
@@ -238,7 +236,7 @@ public class MessageActivity extends AppCompatActivity {
 
         if(!list.isEmpty())
         {
-            sticker_adapter adapter = new sticker_adapter(list);
+            send_sticker_adapter adapter = new send_sticker_adapter(list, fuser,userid,fuser.getUid(), userid);
             keyboard.setAdapter(adapter);
         }
     }
@@ -375,5 +373,11 @@ public class MessageActivity extends AppCompatActivity {
             return null;
         }
     }
-
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
 }

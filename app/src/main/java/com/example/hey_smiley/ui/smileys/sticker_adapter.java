@@ -1,6 +1,5 @@
-package com.example.hey_smiley.ui;
+package com.example.hey_smiley.ui.smileys;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;

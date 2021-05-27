@@ -65,6 +65,7 @@
             android:id="@+id/btn_send"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true" />
+
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,7 +25,8 @@ public class StartActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-//        if (firebaseUser.getUid() != null){
+//        if (firebaseUser != null){
+//            Log.d("user", firebaseUser.getEmail());
 //            Intent intent = new Intent(StartActivity.this, detectedFace.class);
 //            startActivity(intent);
 //            finish();

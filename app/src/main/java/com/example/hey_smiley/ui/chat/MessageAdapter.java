@@ -28,6 +28,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     private Context mContext;
     private List<Chat> mChat;
     private float imageurl;
+    private String TYPE = "img";
 
     FirebaseUser fuser;
 
@@ -53,12 +54,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(@NonNull MessageAdapter.ViewHolder holder, int position) {
 
         Chat chat = mChat.get(position);
-        for(Chat chat1:mChat){
-        if(chat.getType() != "img"){
+
+        if(!chat.getType().equals(TYPE)){
         holder.show_message.setText(chat.getMessage());}
         else {
             Bitmap bit = StringToBitMap(chat.getMessage());
-        }}
+            holder.img.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(bit)
+                    .circleCrop()
+                    .into(holder.img);
+           // holder.img.setImageBitmap(bit);
+        }
 
 
         float smile = (imageurl);
@@ -91,10 +97,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public TextView show_message;
         public ImageView profile_image;
+        public ImageView img;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
+            img = itemView.findViewById(R.id.img);
             show_message = itemView.findViewById(R.id.show_message);
             profile_image = itemView.findViewById(R.id.profile_image);
         }
